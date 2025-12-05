@@ -86,7 +86,7 @@ namespace Advent_Of_Code.Day_02
                                     {
                                         matches = false;
                                         break;
-                                    } 
+                                    }
                                 }
 
                                 if (matches)
