@@ -14,16 +14,16 @@ namespace Advent_Of_Code.Day_03
             Console.WriteLine("Input lines: " + _batteries.Count);
             int joltage = GetJoltage(_batteries);
             Console.WriteLine($"Total Joltage Part One: {joltage}");
+            long joltagePartTwo = GetJoltagePartTwo(_batteries);
+            Console.WriteLine($"Joltage Part Two: {joltagePartTwo}");
         }
 
         private int GetJoltage(List<string> batteries)
         {
-            List<int> numbers = new List<int>();
             int totalJoltage = 0;
 
             foreach (string battery in batteries)
             {
-                numbers.Clear();
                 string number1 = "";
                 string number2 = "";
 
@@ -47,6 +47,47 @@ namespace Advent_Of_Code.Day_03
 
                 string joltageString = number1 + number2;
                 int joltage = int.Parse(joltageString);
+                totalJoltage += joltage;
+            }
+            return totalJoltage;
+        }
+
+
+        private long GetJoltagePartTwo(List<string> batteries)
+        {
+            long totalJoltage = 0;
+
+            foreach (string battery in batteries)
+            {
+                int remove = battery.Length - 12;
+                
+                List<string> numbers = new List<string>();
+                for (int i = 0; i < battery.Length; i++)
+                {
+                    string number = battery[i].ToString();
+
+                    while (remove > 0 && numbers.Count > 0 && int.Parse(numbers[numbers.Count - 1]) < int.Parse(number))
+                    {
+                        numbers.RemoveAt(numbers.Count - 1);
+                        remove--;
+                    }
+                    numbers.Add(number);
+                }
+
+
+                while (remove > 0 && numbers.Count > 0)
+                {
+                    numbers.RemoveAt(numbers.Count - 1);
+                    remove--;
+                }
+
+                string joltageString = "";
+                for (int i = 0; i < 12; i++)
+                {
+                    joltageString += numbers[i];
+                }
+
+                long joltage = long.Parse(joltageString);
                 totalJoltage += joltage;
             }
             return totalJoltage;
